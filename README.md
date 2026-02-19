@@ -1,3 +1,7 @@
  Digital-Attendance-Systems-
-
- A simple Attendance management developed in C++
+This system is developed usinf C++
+The system allows student attendance session creation.
+     ##Features 
+  Create attendance sessiion 
+  Mark attendance (Present, Absent,Late)
+  
