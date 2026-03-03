@@ -1,2 +1,79 @@
-#include <vector>using namespace std;class Student {public:    string indexNumber;    string name;    Student(string idx, string n) : indexNumber(idx), name(n) {}    void display() {        cout << "Index: " << indexNumber << ", Name: " << name << endl;    }};int main() {    vector<Student> students;    int choice;    do {        cout << "1. Register student\n2. View students\n3. Exit\n";        cin >> choice;        cin.ignore(); // Handle newline        if (choice == 1) {            string idx, name;            cout << "Enter index number: ";            cin >> idx;            cout << "Enter name: ";            getline(cin, name); // Allow spaces in name            students.push_back(Student(idx, name));        } else if (choice == 2) {            if (students.empty()) {                cout << "No students registered.\n";            } else {                for (auto& s : students) s.display();            }        }    } while (choice != 3);    return 0;}
-0 commit commentsComments0 (0)Please sign in to comment.
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Student {
+private:
+    string indexNumber;
+    string name;
+    string programme;
+
+public:
+    void registerStudent() {
+        cout << "Enter Index Number: ";
+        cin >> indexNumber;
+        cin.ignore();
+
+        cout << "Enter Name: ";
+        getline(cin, name);
+
+        cout << "Enter Programme: ";
+        getline(cin, programme);
+
+        saveToFile();
+    }
+
+    void saveToFile() {
+        ofstream file("students.txt", ios::app);
+        file << indexNumber << "," << name << "," << programme << endl;
+        file.close();
+        cout << "Student registered successfully!\n";
+    }
+
+    static void viewStudents() {
+        ifstream file("students.txt");
+        string line;
+
+        cout << "\n--- Registered Students ---\n";
+        while (getline(file, line)) {
+            cout << line << endl;
+        }
+
+        file.close();
+    }
+};
+
+int main() {
+    int choice;
+
+    do {
+        cout << "\n--- Student Management ---\n";
+        cout << "1. Register Student\n";
+        cout << "2. View Students\n";
+        cout << "3. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1: {
+            Student s;
+            s.registerStudent();
+            break;
+        }
+        case 2:
+            Student::viewStudents();
+            break;
+        case 3:
+            cout << "Exiting...\n";
+            break;
+        default:
+            cout << "Invalid option!\n";
+        }
+
+    } while (choice != 3);
+
+    return 0;
+}
